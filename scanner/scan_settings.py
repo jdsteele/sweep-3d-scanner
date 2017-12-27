@@ -43,9 +43,9 @@ class ScanSettings(object):
         self.deadzone = deadzone
         self.scan_range = scan_range
         self.mount_angle = mount_angle
+        self.set_sweeps_per_move(sweeps_per_move)
         self.min_range_val = 10
         self.max_range_val = 4000
-        self.sweeps_per_move = sweeps_per_move
 
     def set_motor_speed(self, motor_speed=None):
         """Sets the motor speed setting
@@ -88,8 +88,10 @@ class ScanSettings(object):
             mount_angle = 90
         self.mount_angle = mount_angle
 
-    def set_sweeps_per_move(self, sweeps_per_move):
-        self.sweeps_per_move = sweeps_per_move
+    def set_sweeps_per_move(self, sweeps_per_move=None):
+        if sweeps_per_move is None:
+            sweeps_per_move = 1
+        self.sweeps_per_move = int(sweeps_per_move)
 
     def get_motor_speed(self):
         """Returns the motor speed setting in HZ"""

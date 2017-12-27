@@ -142,7 +142,7 @@ class Scanner(object):
                 rotated_already = True
                 continue
 
-            do_rotate = scan_count % self.settings.get_sweeps_per_move() == 1
+            do_rotate = scan_count % self.settings.get_sweeps_per_move() == 0
 
             # Export the scan
             self.exporter.export_2D_scan(
@@ -319,7 +319,7 @@ if __name__ == '__main__':
                         required=False)
     parser.add_argument('-s', '--sweeps_per_move',
                         help='Sweeps per base move',
-                        default=2,
+                        default=1,
                         required=False)
     parser.add_argument('-dz', '--dead_zone',
                         help='Starting angle of deadzone',
