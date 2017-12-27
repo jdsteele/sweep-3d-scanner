@@ -340,4 +340,16 @@ if __name__ == '__main__':
     args = parser.parse_args()
     argsdict = vars(args)
 
+    import cProfile as profile
+    import pstats, StringIO
+    pr = profile.Profile()
+    pr.enable()
+
     main(argsdict)
+
+    pr.disable()
+    s = StringIO.StringIO()
+    sortby = 'time'
+    ps = pstats.Stats(pr, stream=s).sort_stats(sortby)
+    ps.print_stats()
+    print s.getvalue()
