@@ -29,7 +29,9 @@ def create_sweep_w_error(port='/dev/ttyUSB0', use_dummy=False):
         from sweeppy import Sweep
 
     try:
-        with Sweep(port) as sweep:
-            yield sweep, None
+        sweep_ctx = Sweep(port)
     except:
         yield None, "Failed to open sweep device."
+
+    with sweep_ctx as sweep:
+        yield sweep, None
