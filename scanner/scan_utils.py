@@ -1,4 +1,5 @@
 """Defines utility methods related to 3D scans"""
+from __future__ import print_function
 import argparse
 import numpy as np
 import transformations as tf
@@ -122,19 +123,19 @@ def main(arg_dict):
                      for n in range(6)]
     dummy_scan = sweeppy.Scan(samples=dummy_samples)
 
-    print len(dummy_scan.samples)
-    print dummy_scan.samples
+    print(len(dummy_scan.samples))
+    print(dummy_scan.samples)
     remove_angular_window(dummy_scan, 31, 119)
 
-    print len(dummy_scan.samples)
-    print dummy_scan.samples
+    print(len(dummy_scan.samples))
+    print(dummy_scan.samples)
 
     mount_angle = 90
     base_angle = 90
     converted_coords = transform_scan(
         dummy_scan, mount_angle, base_angle - 1, base_angle)
-    print converted_coords
-    print converted_coords[2, 3]
+    print(converted_coords)
+    print(converted_coords[2, 3])
 
 if __name__ == '__main__':
     parser = argparse.ArgumentParser(

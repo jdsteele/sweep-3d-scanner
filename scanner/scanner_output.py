@@ -5,7 +5,7 @@ import json
 
 def output_message(message):
     """Print the provided input & flush stdout so parent process registers the message"""
-    print message
+    print(message)
     sys.stdout.flush()
 
 

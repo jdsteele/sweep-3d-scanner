@@ -1,4 +1,5 @@
 """Holds parameters and settings for 3D the scanner."""
+from __future__ import print_function
 import sweep_helpers
 
 
@@ -130,15 +131,14 @@ class ScanSettings(object):
 
     def print_details(self):
         """Prints info about this scan parameters object"""
-        print "ScanSettings Object"
-        print "\tMotor speed: {} HZ".format(self.get_motor_speed())
-        print "\tSample rate: {} HZ".format(self.get_sample_rate())
-        print "\tDeadzone angle: {} degrees".format(self.get_deadzone())
-        print "\tTime to reach deadzone angle: {} ms, or {} sec".format(
-            self.get_time_to_deadzone_ms(), self.get_time_to_deadzone_sec())
-        print "\tResolution: {} samples/degree".format(self.get_resolution())
-        print "\tStep size: {} degrees".format(self.get_step_size_deg())
-
+        print("ScanSettings Object")
+        print("\tMotor speed: {} HZ".format(self.get_motor_speed()))
+        print("\tSample rate: {} HZ".format(self.get_sample_rate()))
+        print("\tDeadzone angle: {} degrees".format(self.get_deadzone()))
+        print("\tTime to reach deadzone angle: {} ms, or {} sec".format(
+            self.get_time_to_deadzone_ms(), self.get_time_to_deadzone_sec()))
+        print("\tResolution: {} samples/degree".format(self.get_resolution()))
+        print("\tStep size: {} degrees".format(self.get_step_size_deg()))
 
 def main():
     """Creates two ScanSettings objects (1 default, 1 custom) and prints their details."""
