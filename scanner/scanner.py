@@ -340,20 +340,26 @@ if __name__ == '__main__':
                         default=False,
                         action='store_true',
                         required=False)
-
+parser.add_argument('-p', '--use_profiler',
+                    help='Use profiler',
+                    default=False,
+                    action='store_true',
+                    required=False)
     args = parser.parse_args()
     argsdict = vars(args)
 
-    import cProfile as profile
-    import pstats, StringIO
-    pr = profile.Profile()
-    pr.enable()
+    if args.use_profiler:
+        import cProfile as profile
+        import pstats, StringIO
+        pr = profile.Profile()
+        pr.enable()
 
     main(argsdict)
 
-    pr.disable()
-    s = StringIO.StringIO()
-    sortby = 'time'
-    ps = pstats.Stats(pr, stream=s).sort_stats(sortby)
-    ps.print_stats(10)
-    print s.getvalue()
+    if args.use_profiler:
+        pr.disable()
+        s = StringIO.StringIO()
+        sortby = 'time'
+        ps = pstats.Stats(pr, stream=s).sort_stats(sortby)
+        ps.print_stats(40)
+        print s.getvalue()
