@@ -26,23 +26,11 @@ class ScanSettings(object):
         :param mount_angle:     Mount angle of the device relative to horizontal plane (defaults 90deg)
         :param sweeps_per_move: Number of sweeps per base step
         """
-        if motor_speed is None:
-            motor_speed = sweep_helpers.MOTOR_SPEED_1_HZ
-        if sample_rate is None:
-            sample_rate = sweep_helpers.SAMPLE_RATE_500_HZ
-        if deadzone is None:
-            deadzone = 135
-        if scan_range is None:
-            scan_range = 180
-        if mount_angle is None:
-            mount_angle = 90
-        if sweeps_per_move is None:
-            sweeps_per_move = 1
-        self.motor_speed = motor_speed
-        self.sample_rate = sample_rate
-        self.deadzone = deadzone
-        self.scan_range = scan_range
-        self.mount_angle = mount_angle
+        self.set_motor_speed(motor_speed)
+        self.set_sample_rate(sample_rate)
+        self.set_deadzone(deadzone)
+        self.set_scan_range(scan_range)
+        self.set_mount_angle(mount_angle)
         self.set_sweeps_per_move(sweeps_per_move)
         self.min_range_val = 10
         self.max_range_val = 4000
@@ -53,7 +41,7 @@ class ScanSettings(object):
         """
         if motor_speed is None:
             motor_speed = sweep_helpers.MOTOR_SPEED_1_HZ
-        self.motor_speed = motor_speed
+        self.motor_speed = int(motor_speed)
 
     def set_sample_rate(self, sample_rate=None):
         """Sets the sample rate setting
@@ -61,7 +49,7 @@ class ScanSettings(object):
         """
         if sample_rate is None:
             sample_rate = sweep_helpers.SAMPLE_RATE_500_HZ
-        self.sample_rate = sample_rate
+        self.sample_rate = int(sample_rate)
 
     def set_deadzone(self, deadzone=None):
         """Sets the threshold angle setting
@@ -69,8 +57,8 @@ class ScanSettings(object):
                             at which the base should begin rotating (ie: start of the deadzone)
         """
         if deadzone is None:
-            deadzone = 145
-        self.deadzone = deadzone
+            deadzone = 135
+        self.deadzone = int(deadzone)
 
     def set_scan_range(self, scan_range=None):
         """Sets the movement range for the scan.
@@ -78,7 +66,7 @@ class ScanSettings(object):
         """
         if scan_range is None:
             scan_range = 180
-        self.scan_range = scan_range
+        self.scan_range = int(scan_range)
 
     def set_mount_angle(self, mount_angle=None):
         """Sets the mount angle of the device
@@ -86,7 +74,7 @@ class ScanSettings(object):
         """
         if mount_angle is None:
             mount_angle = 90
-        self.mount_angle = mount_angle
+        self.mount_angle = int(mount_angle)
 
     def set_sweeps_per_move(self, sweeps_per_move=None):
         if sweeps_per_move is None:
