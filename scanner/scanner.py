@@ -187,8 +187,12 @@ class Scanner(object):
         num_stepper_steps_per_move = int(round(num_stepper_steps / num_sweeps))
 
         # Actual angle per move (between individual 2D scans)
-        angle_between_sweeps = 1.0 * num_stepper_steps_per_move / \
-            self.base.get_steps_per_deg()
+        angle_between_sweeps = round(
+            1.0
+            * num_stepper_steps_per_move
+            / self.base.get_steps_per_deg(),
+            3
+        )
 
         # Correct the num_sweeps...
         # Account for the accumulated difference due to rounding
