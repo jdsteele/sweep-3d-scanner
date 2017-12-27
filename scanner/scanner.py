@@ -351,5 +351,5 @@ if __name__ == '__main__':
     s = StringIO.StringIO()
     sortby = 'time'
     ps = pstats.Stats(pr, stream=s).sort_stats(sortby)
-    ps.print_stats()
+    ps.print_stats(10)
     print s.getvalue()
