@@ -44,21 +44,31 @@ class ScanExporter(object):
         # Write the header to the CSV
         self.writer.writeheader()
 
-    def export_2D_scan(self, scan, scan_index, angle_between_sweeps, mount_angle, CCW):
+    def export_2D_scan(self,
+                       scan,
+                       scan_index,
+                       angle_between_sweeps,
+                       mount_angle,
+                       CCW,
+                       rotate=True):
         """Exports the scan to the file
         :param scan:
         :param scan_index:
         :param mount_angle:
         :param angle_between_sweeps
         :param CCW: True if base rotates CCW during scan
+        :param rotate: True if base rotates during scan
         """
         if not CCW:
             angle_between_sweeps = -angle_between_sweeps
 
         # Base angle before base rotation
         base_angle_1 = scan_index * angle_between_sweeps
-        # Base angle after base rotation
-        base_angle_2 = (scan_index + 1) * angle_between_sweeps
+        if rotate:
+            # Base angle after base rotation
+            base_angle_2 = (scan_index + 1) * angle_between_sweeps
+        else:
+            base_angle_2 = base_angle_1
 
         converted_coords = scan_utils.transform_scan(
             scan, mount_angle, base_angle_1, base_angle_2)

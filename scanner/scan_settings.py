@@ -6,23 +6,25 @@ import sweep_helpers
 class ScanSettings(object):
     """A set of scan settings
     Attributes:
-        motor_speed:    Sweep device motor speed in HZ
-        sample_rate:    Sweep device sample rate in HZ
-        deadzone:       Angle at which the base should begin rotating
-                        (measured in degrees from sweep device 0 angle)
-        scan_range:     Angular range (in degrees) for the scan to cover
-        mount_angle:    Mount angle of the device relative to horizontal plane
+        motor_speed:     Sweep device motor speed in HZ
+        sample_rate:     Sweep device sample rate in HZ
+        deadzone:        Angle at which the base should begin rotating
+                         (measured in degrees from sweep device 0 angle)
+        scan_range:      Angular range (in degrees) for the scan to cover
+        mount_angle:     Mount angle of the device relative to horizontal plane
+        sweeps_per_move: Number of sweep rotations per base rotation move
     """
 
     def __init__(self, motor_speed=None, sample_rate=None, deadzone=None,
-                 scan_range=None, mount_angle=None):
+                 scan_range=None, mount_angle=None, sweeps_per_move=None):
         """Return a ScanSettings object.
-        :param motorSpeed:  Integer value between 1:10 representing motor speed in HZ
-        :param sampleRate:  Integer value (500, 750 or 1000), representing a sample rate in HZ
-        :param deadzone:    Integer value between 0:180, angle at which the base should begin
-                            rotating (measured in degrees from sweep device 0 angle)
-        :param scan_range:  Range of movement for the scan to cover (default 180deg)
-        :param mount_angle: Mount angle of the device relative to horizontal plane (defaults 90deg)
+        :param motorSpeed:      Integer value between 1:10 representing motor speed in HZ
+        :param sampleRate:      Integer value (500, 750 or 1000), representing a sample rate in HZ
+        :param deadzone:        Integer value between 0:180, angle at which the base should begin
+                                rotating (measured in degrees from sweep device 0 angle)
+        :param scan_range:      Range of movement for the scan to cover (default 180deg)
+        :param mount_angle:     Mount angle of the device relative to horizontal plane (defaults 90deg)
+        :param sweeps_per_move: Number of sweeps per base step
         """
         if motor_speed is None:
             motor_speed = sweep_helpers.MOTOR_SPEED_1_HZ
@@ -34,6 +36,8 @@ class ScanSettings(object):
             scan_range = 180
         if mount_angle is None:
             mount_angle = 90
+        if sweeps_per_move is None:
+            sweeps_per_move = 1
         self.motor_speed = motor_speed
         self.sample_rate = sample_rate
         self.deadzone = deadzone
@@ -41,6 +45,7 @@ class ScanSettings(object):
         self.mount_angle = mount_angle
         self.min_range_val = 10
         self.max_range_val = 4000
+        self.sweeps_per_move = sweeps_per_move
 
     def set_motor_speed(self, motor_speed=None):
         """Sets the motor speed setting
@@ -83,6 +88,9 @@ class ScanSettings(object):
             mount_angle = 90
         self.mount_angle = mount_angle
 
+    def set_sweeps_per_move(self, sweeps_per_move):
+        self.sweeps_per_move = sweeps_per_move
+
     def get_motor_speed(self):
         """Returns the motor speed setting in HZ"""
         return self.motor_speed
@@ -110,6 +118,9 @@ class ScanSettings(object):
     def get_mount_angle(self):
         """Returns the mount angle of the device relative to horizontal plane (in deg)"""
         return self.mount_angle
+
+    def get_sweeps_per_move(self):
+        return self.sweeps_per_move
 
     def get_resolution(self):
         """Returns the resolution which results from the settings in samples/deg"""
@@ -139,6 +150,7 @@ class ScanSettings(object):
             self.get_time_to_deadzone_ms(), self.get_time_to_deadzone_sec()))
         print("\tResolution: {} samples/degree".format(self.get_resolution()))
         print("\tStep size: {} degrees".format(self.get_step_size_deg()))
+        print("\tSweeps per step: {}".format(self.get_sweeps_per_move()))
 
 def main():
     """Creates two ScanSettings objects (1 default, 1 custom) and prints their details."""

@@ -142,19 +142,23 @@ class Scanner(object):
                 rotated_already = True
                 continue
 
+            do_rotate = scan_count % self.settings.get_sweeps_per_move() == 1
+
             # Export the scan
             self.exporter.export_2D_scan(
                 scan, valid_scan_index, angle_between_sweeps,
-                self.settings.get_mount_angle(), False)
+                self.settings.get_mount_angle(), False, do_rotate)
 
-            # increment the scan index
-            valid_scan_index = valid_scan_index + 1
+            if do_rotate:
 
-            # Wait for the device to reach the threshold angle for movement
-            self.wait_until_deadzone(scan_arrival_time)
+                # increment the scan index
+                valid_scan_index = valid_scan_index + 1
 
-            # Move the base and report progress
-            self.base.move_steps(steps_per_move)
+                # Wait for the device to reach the threshold angle for movement
+                self.wait_until_deadzone(scan_arrival_time)
+
+                # Move the base and report progress
+                self.base.move_steps(steps_per_move)
             self.report_scan_progress(num_sweeps, valid_scan_index)
 
             # Exit after collecting the required number of 2D scans
@@ -230,8 +234,12 @@ class Scanner(object):
             'type': "update",
             'status': "scan",
             'msg': "Scan in Progress...",
-            'duration': num_sweeps / self.settings.get_motor_speed(),
-            'remaining': (num_sweeps - valid_scan_index) / self.settings.get_motor_speed()
+            'duration': num_sweeps
+                / self.settings.get_motor_speed()
+                * self.settings.get_sweeps_per_move(),
+            'remaining': (num_sweeps - valid_scan_index)
+                / self.settings.get_motor_speed()
+                * self.settings.get_sweeps_per_move()
         })
 
     def report_scan_complete(self):
@@ -256,7 +264,8 @@ def main(arg_dict):
         int(arg_dict['dead_zone']),     # starting angle of deadzone
         int(arg_dict['angular_range']),  # angular range of scan
         # mount angle of device relative to horizontal
-        int(arg_dict['mount_angle'])
+        int(arg_dict['mount_angle']),
+        int(arg_dict['sweeps_per_move'])
     )
 
     # Create an exporter
@@ -307,6 +316,10 @@ if __name__ == '__main__':
     parser.add_argument('-ma', '--mount_angle',
                         help='Mount angle of device relative to horizontal',
                         default=90,
+                        required=False)
+    parser.add_argument('-s', '--sweeps_per_move',
+                        help='Sweeps per base move',
+                        default=2,
                         required=False)
     parser.add_argument('-dz', '--dead_zone',
                         help='Starting angle of deadzone',
