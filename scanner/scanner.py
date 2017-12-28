@@ -340,11 +340,11 @@ if __name__ == '__main__':
                         default=False,
                         action='store_true',
                         required=False)
-parser.add_argument('-p', '--use_profiler',
-                    help='Use profiler',
-                    default=False,
-                    action='store_true',
-                    required=False)
+    parser.add_argument('-p', '--use_profiler',
+                        help='Use profiler',
+                        default=False,
+                        action='store_true',
+                        required=False)
     args = parser.parse_args()
     argsdict = vars(args)
 
